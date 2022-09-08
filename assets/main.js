@@ -9,14 +9,16 @@ let SpeechRecognitionEvent =
 
 let recognition = new SpeechRecognition();
 
-recognition.continuous = true;
-recognition.lang = "id";
+recognition.continuous = true; // untuk merekam lanjutan suara, jadi suara akan terus terekam
+recognition.lang = "id"; // untuk mengeluarkan input suara yang berupa bahasa indonesia
 recognition.interimResults = false;
 
+// identifikasi eror jika suara tidak ada/tidak dikenal
 recognition.onerror = (event) => {
   console.log(event);
 };
 
+// hasil output
 recognition.onresult = (event) => {
   console.log(event.results);
 
@@ -25,6 +27,7 @@ recognition.onresult = (event) => {
   textResult = event.results[event.results.length - 1][0].transcript;
   console.log(textResult);
 
+  // kode untuk memasukkan hasil suara berupa text ke dalam message
   document.querySelector("#data").value = `${textResult}`;
 
   $value = $("#data").val();
@@ -38,16 +41,19 @@ recognition.onresult = (event) => {
   // start ajax code
   $.ajax({
     url:
-      "https://api.mymemory.translated.net/get?q=" + $value + "&langpair=id|en",
+      "https://api.mymemory.translated.net/get?q=" + $value + "&langpair=id|en", // identifikasi api yang digunakan dengan menambahkan value yang telah di inputkan user
     success: function (result) {
       result = result.responseData.translatedText;
       console.log(result);
+
+      // kode output berupa message dari reply an robot
       $replay =
         '<div class="bot-inbox inbox"><div class="icon"><i class="fas fa-robot"></i></div><div class="msg-header"><p>' +
         result +
         "</p></div></div>";
       $(".form").append($replay);
-      // when chat goes down the scroll bar automatically comes to the bottom
+
+      // saat obrolan turun, bilah gulir secara otomatis turun ke bawah
       $(".form").scrollTop($(".form")[0].scrollHeight);
     },
   });
@@ -55,10 +61,11 @@ recognition.onresult = (event) => {
 
 let textResult = "";
 
+// kode ketika id start di tekan
 document.querySelector("#start").onclick = () => {
   recognition.start();
 };
-
+// kode ketika id stop di tekan
 document.querySelector("#stop").onclick = () => {
   recognition.stop();
 };

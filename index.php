@@ -14,7 +14,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <div class="title">Translate Chatbot</div>
+      <div class="title">Translate To English With Chatbot</div>
       <div class="form">
         <div class="bot-inbox inbox">
           <div class="icon">
@@ -41,34 +41,6 @@
     </div>
 
     <script src="assets/main.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("#send-btn").on("click", function () {
-          $value = $("#data").val();
-          $msg =
-            '<div class="user-inbox inbox"><div class="msg-header"><p>' +
-            $value +
-            "</p></div></div>";
-          $(".form").append($msg);
-          $("#data").val("");
-
-          // start ajax code
-          $.ajax({
-            url: "https://api.mymemory.translated.net/get?q="+ $value +"&langpair=id|en",
-            success: function (result) {
-              result = result.responseData.translatedText;
-              console.log(result);
-                $replay =
-                  '<div class="bot-inbox inbox"><div class="icon"><i class="fas fa-robot"></i></div><div class="msg-header"><p>' +
-                  result +
-                  "</p></div></div>";
-                $(".form").append($replay);
-                // when chat goes down the scroll bar automatically comes to the bottom
-                $(".form").scrollTop($(".form")[0].scrollHeight);
-            },
-          });
-        });
-      });
-    </script>
+    
   </body>
 </html>
